@@ -28,3 +28,8 @@ archive.zip
 
 # macOS
 .DS_Store
+
+#config
+config.py
+src/migrations
+pyproject.toml
