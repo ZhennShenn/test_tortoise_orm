@@ -3,9 +3,10 @@ from typing import List
 from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from .models import UserInPydantic, UserPydantic, Users
+from src.app.models import UserInPydantic, UserPydantic, Users
 
 router = APIRouter()
+
 
 @router.get("/users", response_model=List[UserPydantic])
 async def get_users():

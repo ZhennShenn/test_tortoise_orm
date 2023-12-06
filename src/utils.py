@@ -1,7 +1,8 @@
 """Utils"""
 from moysklad.api import ApiUrlRegistry, MoySklad, MoySkladHttpClient
 
-import config
+# import config
+from .config import moysklad_login, moysklad_password, moysklad_token
 
 
 def init_ms() -> tuple[MoySkladHttpClient, ApiUrlRegistry]:
@@ -11,7 +12,7 @@ def init_ms() -> tuple[MoySkladHttpClient, ApiUrlRegistry]:
         tuple[MoySkladHttpClient, ApiUrlRegistry]: Return Client and Methods
     """
     sklad = MoySklad.get_instance(
-        config.moysklad_login, config.moysklad_password, config.moysklad_token
+        moysklad_login, moysklad_password, moysklad_token
     )
     client = sklad.get_client()
     methods = sklad.get_methods()

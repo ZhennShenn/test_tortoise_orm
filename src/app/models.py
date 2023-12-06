@@ -15,6 +15,7 @@ class Users(models.Model):
     class PydanticMeta:
         exclude = ['hashed_password']
 
+
 UserPydantic = pydantic_model_creator(Users, name="User")
 UserInPydantic = pydantic_model_creator(Users, name='User', exclude_readonly=True)
 UserPydanticList = pydantic_queryset_creator(Users)

@@ -3,7 +3,8 @@ from typing import List
 from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from .models import CustomerOrderInPydantic, CustomerOrderPydantic, CustomerOrders
+from src.customerorder.models import CustomerOrderInPydantic, CustomerOrderPydantic, CustomerOrders
+from src.customerorder.servise import formation_order_data
 
 router = APIRouter()
 
@@ -26,5 +27,6 @@ async def create_customerorder(order: CustomerOrderInPydantic):
 
 @router.post("/customerorders", response_model=List[CustomerOrderPydantic])
 async def create_customerorder(orders: List[CustomerOrderInPydantic]):
+    orders = formation_order_data(limit=3, offset=0, date_start='2023-08-14', date_end='2023-08-15')
     order_objs = await CustomerOrders.bulk_create([CustomerOrders(**order.dict(exclude_unset=True)) for order in orders])
     return await CustomerOrderInPydantic.from_tortoise_orm(order_objs)

@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from .models import ProductInPydantic, ProductPydantic, Products
+from src.product.models import ProductInPydantic, ProductPydantic, Products
 
 router = APIRouter()
 
