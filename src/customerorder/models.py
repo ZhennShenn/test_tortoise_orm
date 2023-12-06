@@ -3,7 +3,7 @@ from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_
 
 
 class CustomerOrders(models.Model):
-    id = fields.IntField(pk=True)
+    id = fields.UUIDField(pk=True)
     code = fields.CharField(max_length=100, unique=True)
     date = fields.DatetimeField()
     products = fields.JSONField()

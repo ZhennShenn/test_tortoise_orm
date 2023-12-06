@@ -57,17 +57,18 @@ def formation_order_data(limit, offset, date_start, date_end):
         if orders:
             for order in orders.rows:
                 positions_list = form_positions_list(order)
-                orders_result_dataset.append({
+                order_data_dict = {
                     'id': order['id'],
                     'code': order['name'],
-                    'created': order['created'],
-                    'positions': positions_list
-                })
+                    'date': order['created'],
+                    'products': positions_list
+                }
+                orders_result_dataset.append(order_data_dict)
         offset += limit
         if not ('nextHref' in orders.meta):
             break
     return orders_result_dataset
 
-# if __name__ == "__main__":
-#     result = formation_order_data(limit=100, offset=0, date_start='2023-08-14', date_end='2023-08-16')
-#     pprint(len(result))
+if __name__ == "__main__":
+    result = formation_order_data(limit=100, offset=0, date_start='2023-08-14', date_end='2023-08-15')
+    pprint(result)
