@@ -18,7 +18,13 @@ async def get_customerorder(order_id: int):
     return await CustomerOrderPydantic.from_queryset_single(CustomerOrders.get(id=order_id))
 
 
-@router.post("/customerorders", response_model=CustomerOrderPydantic)
+@router.post("/customerorder", response_model=CustomerOrderPydantic)
 async def create_customerorder(order: CustomerOrderInPydantic):
     order_obj = await CustomerOrders.create(**order.dict(exclude_unset=True))
     return await CustomerOrderInPydantic.from_tortoise_orm(order_obj)
+
+
+@router.post("/customerorders", response_model=List[CustomerOrderPydantic])
+async def create_customerorder(orders: List[CustomerOrderInPydantic]):
+    order_objs = await CustomerOrders.bulk_create([CustomerOrders(**order.dict(exclude_unset=True)) for order in orders])
+    return await CustomerOrderInPydantic.from_tortoise_orm(order_objs)

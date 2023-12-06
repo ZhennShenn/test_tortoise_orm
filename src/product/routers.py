@@ -22,3 +22,9 @@ async def get_product(product_id: int):
 async def create_product(product: ProductInPydantic):
     product_obj = await Products.create(**product.dict(exclude_unset=True))
     return await ProductInPydantic.from_tortoise_orm(product_obj)
+
+
+@router.post("/products/list", response_model=List[ProductPydantic])
+async def create_products(products: List[ProductInPydantic]):
+    product_objs = await Products.bulk_create([Products(**product.dict(exclude_unset=True)) for product in products])
+    return await ProductInPydantic.from_tortoise_orm(product_objs)
