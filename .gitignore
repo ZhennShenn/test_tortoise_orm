@@ -31,5 +31,5 @@ archive.zip
 
 #config
 config.py
-src/migrations
+migrations
 pyproject.toml
