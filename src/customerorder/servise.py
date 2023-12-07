@@ -19,7 +19,7 @@ def get_orders(limit, offset, date_start, date_end):
             query=Query(
                 Select(limit=limit, offset=offset),
                 Filter().gte("created", date_start) + Filter().lte("created", date_end),
-                Expand("positions", "positions.assortment")
+                Expand("positions", "positions.assortment", "state", "store", "agent")
             )
         )
     except ApiResponseException as ex:
@@ -56,22 +56,37 @@ def formation_order_data(date_start, date_end, limit=100, offset=0):
 
         if orders:
             for order in orders.rows:
+                if 'deliveryPlannedMoment' in order:
+                    delivery_date = order['deliveryPlannedMoment']
+                else:
+                    delivery_date = '-'
                 positions_list = form_positions_list(order)
-                order_data_dict = {
-                    'id': order['id'],
+                orders_result_dataset.append({
+                    'id_ms': order['id'],
                     'code': order['name'],
-                    'date': order['created'],
-                    'products': positions_list
-                }
-                orders_result_dataset.append(order_data_dict)
+                    'created': order['created'],
+                    'positions': positions_list,
+                    'delivery_date': delivery_date,
+                    'sum': order['sum']/100,
+                    'update_date': order['updated'],
+                    'state': order['state']['name'],
+                    'store': order['store']['name'],
+                    'agent': order['agent']['name']
+
+
+
+
+                })
         offset += limit
+
         if not ('nextHref' in orders.meta):
             break
     return orders_result_dataset
 
 
+# if __name__ == "__main__":
+#     result = formation_order_data(limit=100, offset=0, date_start='2023-08-14 12:00', date_end='2023-08-16 15:00')
+#     pprint(result[1:10])
 
-
-if __name__ == "__main__":
-    result = formation_order_data(limit=100, offset=0, date_start='2023-08-14', date_end='2023-08-15')
-    pprint(result)
+# result = get_orders(limit=3, offset=0, date_start='2023-08-14', date_end='2023-08-15')
+# print(result.rows[1])
