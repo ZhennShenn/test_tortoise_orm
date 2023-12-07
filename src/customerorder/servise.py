@@ -56,26 +56,19 @@ def formation_order_data(date_start, date_end, limit=100, offset=0):
 
         if orders:
             for order in orders.rows:
-                if 'deliveryPlannedMoment' in order:
-                    delivery_date = order['deliveryPlannedMoment']
-                else:
-                    delivery_date = '-'
+
                 positions_list = form_positions_list(order)
                 orders_result_dataset.append({
-                    'id_ms': order['id'],
-                    'code': order['name'],
-                    'created': order['created'],
+                    'id_ms': order.get('id'),
+                    'code': order.get('name'),
+                    'created': order.get('created'),
                     'positions': positions_list,
-                    'delivery_date': delivery_date,
-                    'sum': order['sum']/100,
-                    'update_date': order['updated'],
-                    'state': order['state']['name'],
-                    'store': order['store']['name'],
-                    'agent': order['agent']['name']
-
-
-
-
+                    'delivery_date': order.get('deliveryPlannedMoment'),
+                    'sum': order.get('sum', 0) / 100,
+                    'update_date': order.get('updated'),
+                    'state': order.get('state', {}).get('name'),
+                    'store': order.get('store', {}).get('name'),
+                    'agent': order.get('agent', {}).get('name')
                 })
         offset += limit
 
