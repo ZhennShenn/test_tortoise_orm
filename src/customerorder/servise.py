@@ -41,7 +41,7 @@ def form_positions_list(order):
         positions_list.append(position['assortment']['id'])
     return positions_list
 
-def formation_order_data(limit, offset, date_start, date_end):
+def formation_order_data(date_start, date_end, limit=100, offset=0):
     """
     Функция для формирования датасета заказов для записи в БД.
 
