@@ -1,9 +1,13 @@
+import time
+
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import ResponseValidationError
 from fastapi import Request
 from starlette import status
 from starlette.responses import JSONResponse
+
+from debug_toolbar.middleware import DebugToolbarMiddleware
 
 from tortoise.contrib.fastapi import register_tortoise
 
@@ -13,8 +17,18 @@ from src.app.routers import router as app_router
 from src.customerorder.routers import router as customerorder_router
 from src.product.routers import router as product_router
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
+app.add_middleware(DebugToolbarMiddleware, panels=["debug_toolbar.panels.tortoise.TortoisePanel"])
+
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
 
 app.include_router(app_router, prefix="/api/v1", tags=['User'])
 app.include_router(customerorder_router, prefix="/api/v1", tags=['CustomerOrder'])
