@@ -5,7 +5,7 @@ from tortoise.contrib.fastapi import HTTPNotFoundError
 
 from src.customerorder.models import CustomerOrderInPydantic, CustomerOrderPydantic, CustomerOrders, \
     CustomerOrderPydanticList
-from src.customerorder.servise import formation_order_data
+from src.customerorder.service import OrderLoader, params_order_loader
 
 router = APIRouter()
 
@@ -28,7 +28,9 @@ async def create_customerorder(order: CustomerOrderInPydantic):
 
 @router.post("/customerorders", response_model=CustomerOrderPydanticList)
 async def create_customerorder():
-    orders_data = formation_order_data(date_start='2023-08-15', date_end='2023-08-16')
+    order_obj = OrderLoader(params=params_order_loader)
+    orders_data = order_obj.formation_full_dataset(test_iteration=True)
+
     # Добавляются записи в БД
     await CustomerOrders.bulk_create([CustomerOrders(**order) for order in orders_data])
 
