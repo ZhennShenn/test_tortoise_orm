@@ -15,9 +15,9 @@ async def get_customerorders():
     return await CustomerOrderInPydantic.from_queryset(CustomerOrders.all())
 
 
-@router.get("/customerorders/{order_id}", response_model=CustomerOrderPydantic, responses={404: {'model': HTTPNotFoundError}})
-async def get_customerorder(order_id: int):
-    return await CustomerOrderPydantic.from_queryset_single(CustomerOrders.get(id=order_id))
+@router.get("/customerorders/{order_code}", response_model=CustomerOrderPydantic, responses={404: {'model': HTTPNotFoundError}})
+async def get_customerorder(order_code: str):
+    return await CustomerOrderPydantic.from_queryset_single(CustomerOrders.get(code=order_code))
 
 
 @router.post("/customerorder", response_model=CustomerOrderPydantic)
@@ -34,7 +34,6 @@ async def create_customerorder():
 
     # формируется Pydantic схема для ответа пользователю
     orders_schema = await CustomerOrderPydanticList.from_queryset(CustomerOrders.all())
-
 
     return orders_schema
 

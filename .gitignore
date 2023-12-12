@@ -29,7 +29,13 @@ archive.zip
 # macOS
 .DS_Store
 
+#env
+.env
+.env-non-dev
+
 #config
-config.py
 migrations
 pyproject.toml
+
+#volumes
+data/
