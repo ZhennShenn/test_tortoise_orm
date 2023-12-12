@@ -4,14 +4,15 @@ from moysklad.queries import Expand, Filter, Select, Query
 from src.utils import init_ms
 
 class Loader:
-    def __init__(self, params={}):
+    def __init__(self, params=None):
         self.client, self.methods = init_ms()
         self.limit = 100
         self.offset = 0
 
-        # Установка параметров, как атрибутов
-        for key, value in params.items():
-            setattr(self, key, value)
+        if params:
+            # Установка параметров, как атрибутов
+            for key, value in params.items():
+                setattr(self, key, value)
 
     def get_response(self):
         try:
@@ -45,5 +46,3 @@ class Loader:
 
     def formation_part_dataset(self, response_rows):
         pass
-
-

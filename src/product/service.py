@@ -34,9 +34,10 @@ class ProductLoader(Loader):
 params_product_loader = {'entity': 'product',
     'expand': ["group", "supplier"]}
 
+# from pprint import pprint
 # product_loader_object = ProductLoader(params=params_product_loader)
 # result = product_loader_object.formation_full_dataset(test_iteration=True)
-# print(result[2])
+# pprint(result[2])
 # for i in result:
 #     print(i['barcodes'])
 # print(len(result))
