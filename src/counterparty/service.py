@@ -8,7 +8,7 @@ class CounterpartyLoader(Loader):
 
         for counterparty in response_rows:
             part_dataset.append({
-                'id': counterparty.get('id'),
+                'id_ms': counterparty.get('id'),
                 'name': counterparty.get('name'),
                 'inn': counterparty.get('inn'),
                 'phone': counterparty.get('phone'),
@@ -22,7 +22,7 @@ class CounterpartyLoader(Loader):
                 'salesAmount': counterparty.get('salesAmount', 0.0),
                 'attributes': [
                     {
-                        'id': attribute['id'],
+                        'id_ms': attribute['id'],
                         'name': attribute['name'],
                         'type': attribute['type'],
                         'value': attribute['value']

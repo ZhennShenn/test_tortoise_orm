@@ -3,7 +3,8 @@ from typing import List
 from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from src.product.models import ProductInPydantic, ProductPydantic, Products
+from src.product.models import ProductInPydantic, ProductPydantic, Products, ProductPydanticList
+from src.product.service import ProductLoader, params_product_loader
 
 router = APIRouter()
 
@@ -24,7 +25,15 @@ async def create_product(product: ProductInPydantic):
     return await ProductInPydantic.from_tortoise_orm(product_obj)
 
 
-@router.post("/products", response_model=List[ProductPydantic])
-async def create_products(products: List[ProductInPydantic]):
-    product_objs = await Products.bulk_create([Products(**product.dict(exclude_unset=True)) for product in products])
-    return await ProductInPydantic.from_tortoise_orm(product_objs)
+@router.post("/products", response_model=ProductPydanticList)
+async def create_customerorder():
+    product_obj = ProductLoader(params=params_product_loader)
+    products_data = product_obj.formation_full_dataset(test_iteration=True)
+
+    # Добавляются записи в БД
+    await Products.bulk_create([Products(**product) for product in products_data])
+
+    # формируется Pydantic схема для ответа пользователю
+    products_schema = await ProductPydanticList.from_queryset(Products.all())
+
+    return products_schema

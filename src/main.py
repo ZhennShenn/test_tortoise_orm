@@ -16,6 +16,7 @@ from src.config import TORTOISE_ORM, db_url
 from src.app.routers import router as app_router
 from src.customerorder.routers import router as customerorder_router
 from src.product.routers import router as product_router
+from src.counterparty.routers import router as counterparty_router
 
 app = FastAPI(debug=True)
 
@@ -33,6 +34,7 @@ async def add_process_time_header(request: Request, call_next):
 app.include_router(app_router, prefix="/api/v1", tags=['User'])
 app.include_router(customerorder_router, prefix="/api/v1", tags=['CustomerOrder'])
 app.include_router(product_router, prefix="/api/v1", tags=['Product'])
+app.include_router(counterparty_router, prefix="/api/v1", tags=['Counterparty'])
 
 
 @app.exception_handler(ResponseValidationError)

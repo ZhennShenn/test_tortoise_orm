@@ -7,12 +7,11 @@ class ProductLoader(Loader):
         for product in response_rows:
 
             part_dataset.append({
-                    'id': product.get('id'),
+                    'id_ms': product.get('id'),
                     'name': product.get('name'),
                     'code': product.get('code'),
                     'description': product.get('description'),
                     'category': self.get_category_from_attributes(product.get('attributes', [])),
-                    'images_url': product.get('images', {}).get('meta', {}).get('href'),
                     'barcodes': product.get('barcodes'),
                     'group': product.get('group', {}).get('name'),
                     'updated_info': product.get('updated'),
