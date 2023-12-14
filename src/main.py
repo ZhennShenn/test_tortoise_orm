@@ -18,7 +18,42 @@ from src.customerorder.routers import router as customerorder_router
 from src.product.routers import router as product_router
 from src.counterparty.routers import router as counterparty_router
 
-app = FastAPI(debug=True)
+description = """
+App API helps you enrich the data in the database.
+
+## Entities
+
+You can **read or create one or more elements for each entity (eg product)**.
+
+## Users
+
+You can:
+
+* **Create users**.
+* **Get info about some user by id**.
+* **Get users info**.
+"""
+
+tags_metadata = [
+    {
+        "name": "User",
+        "description": "Operations with users.",
+    },
+    {
+        "name": "Counterparty",
+        "description": "Obtaining and adding information in data base.",
+    },
+    {
+        "name": "CustomerOrder",
+        "description": "Obtaining and adding information in data base.",
+    },
+    {
+        "name": "Product",
+        "description": "Obtaining and adding information in data base.",
+    },
+]
+
+app = FastAPI(debug=True, description=description, openapi_tags=tags_metadata)
 
 app.add_middleware(DebugToolbarMiddleware, panels=["debug_toolbar.panels.tortoise.TortoisePanel"])
 
