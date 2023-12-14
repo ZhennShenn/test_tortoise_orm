@@ -36,7 +36,6 @@ class OrderLoader(Loader):
 params_order_loader = {
     'entity': 'customerorder',
     'expand': ["positions", "positions.assortment", "state", "store", "agent"]
-
 }
 
 
