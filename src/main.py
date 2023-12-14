@@ -17,6 +17,7 @@ from src.app.routers import router as app_router
 from src.customerorder.routers import router as customerorder_router
 from src.product.routers import router as product_router
 from src.counterparty.routers import router as counterparty_router
+from src.store.routers import router as store_router
 
 description = """
 App API helps you enrich the data in the database.
@@ -70,6 +71,7 @@ app.include_router(app_router, prefix="/api/v1", tags=['User'])
 app.include_router(customerorder_router, prefix="/api/v1", tags=['CustomerOrder'])
 app.include_router(product_router, prefix="/api/v1", tags=['Product'])
 app.include_router(counterparty_router, prefix="/api/v1", tags=['Counterparty'])
+app.include_router(store_router, prefix="/api/v1", tags=['Store'])
 
 
 @app.exception_handler(ResponseValidationError)
