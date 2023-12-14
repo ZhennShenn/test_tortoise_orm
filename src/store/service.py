@@ -1,11 +1,13 @@
 from src.service import Loader
+from src.store.models import Stores
+
 
 class StoreLoader(Loader):
     def formation_part_dataset(self, response_rows):
         part_dataset = []
         for store in response_rows:
             part_dataset.append({
-                'id': store.get('id'),
+                'id_ms': store.get('id'),
                 'name': store.get('name'),
                 'externalCode': store.get('externalCode'),
                 'archived': store.get('archived', False),
@@ -17,10 +19,7 @@ params_store_loader = {
     'expand': []
 }
 
-from pprint import  pprint
-store_loader_object = StoreLoader(params=params_store_loader)
-result = store_loader_object.formation_full_dataset(test_iteration=True)
-pprint(result[2])
-print(len(result))
-for i in result:
-    print(i['name'])
+# from pprint import  pprint
+# store_loader_object = StoreLoader(params=params_store_loader)
+# result = store_loader_object.formation_full_dataset(test_iteration=True)
+# Stores.bulk_create([Stores(**store) for store in result])
