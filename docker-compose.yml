@@ -22,9 +22,8 @@ services:
     env_file:
       - .env-non-dev
     container_name: test_app
-    command: aerich upgrade
     ports:
-      - "3003:8000"
+      - "8000:8000"
     depends_on:
       - db
       - redis
