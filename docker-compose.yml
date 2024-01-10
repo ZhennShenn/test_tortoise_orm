@@ -23,7 +23,20 @@ services:
       - .env-non-dev
     container_name: test_app
     ports:
-      - "8000:8000"
+      - "8001:8001"
     depends_on:
       - db
       - redis
+  admin:
+    build:
+        context: ./fastapi-admin
+        dockerfile: Dockerfile
+    restart: always
+    env_file: .env-non-dev
+    network_mode: host
+    image: fastapi-admin
+    command: uvicorn examples.main:app_ --port 8000 --host 0.0.0.0
+    depends_on:
+      - db
+      - redis
+      - app

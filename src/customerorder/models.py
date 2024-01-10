@@ -5,7 +5,7 @@ from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_
 class CustomerOrders(models.Model):
     id = fields.UUIDField(pk=True)
     id_ms = fields.CharField(max_length=100)
-    code = fields.CharField(max_length=100, unique=True)
+    code = fields.CharField(max_length=50, unique=True)
     created = fields.DatetimeField(null=True)
     positions = fields.JSONField()
     delivery_date = fields.DatetimeField(null=True)

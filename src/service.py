@@ -27,7 +27,7 @@ class Loader:
             print(f"Error fetching orders: {ex}")
             return None
 
-    def formation_full_dataset(self, test_iteration=False):
+    def formation_full_dataset(self, test_iteration=True):
         result = []
         while True:
             response = self.get_response()
